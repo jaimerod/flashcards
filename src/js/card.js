@@ -7,7 +7,7 @@ class Card {
     if (typeof obj !== 'undefined') {
       this.back = obj.back;
       this.front = obj.front;
-      this.title = obj.title ;
+      this.title = obj.title;
     }
   }
 
@@ -30,7 +30,7 @@ class Card {
       title: this.title,
       front: this.front,
       back: this.back
-    };
+    }
 
     if (typeof this.id === 'undefined') {
       const cardRef = database.ref(cardPath);
@@ -44,7 +44,7 @@ class Card {
   }
 
   load(id) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       firebase.database().ref(id).once('value').then((snapshot) => {
         const data = snapshot.val();
         this.title = data.title;
@@ -57,4 +57,4 @@ class Card {
   }
 }
 
-if (typeof module !== 'undefined') module.exports = Card;
+module.exports = Card;

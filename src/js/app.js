@@ -1,3 +1,11 @@
+'use strict';
+
+// Load Classes
+const Card = require('./card.js');
+const Decks = require('./decks.js');
+const Flashcard = require('./flashcards.js');
+const Notifier = require('./notifier.js');
+
 const flashcardPath = "/flashcards";
 const toast = new Notifier();
 toast.sendMessage('Loaded');

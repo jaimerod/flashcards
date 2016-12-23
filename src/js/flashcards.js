@@ -1,5 +1,7 @@
 'use strict';
 
+const Card = require('./card.js');
+
 class Flashcard {
   constructor (title) {
     this.cards = [];
@@ -94,10 +96,10 @@ class Flashcard {
       });
     }
 
-    this.cards.forEach((item, idx, arr) => {
+    this.cards.forEach((item) => {
       item.save(parent + '/' + this.id);
     });
   }
 }
 
-if (typeof module !== 'undefined') module.exports = Flashcard;
+module.exports = Flashcard;

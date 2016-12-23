@@ -1,5 +1,7 @@
 'use strict';
 
+const Flashcard = require('./flashcards.js');
+
 class Decks {
   constructor (title) {
     this.flashcards = [];
@@ -28,7 +30,7 @@ class Decks {
                 reject(reason);
               });
             }));
-          };
+          }
 
           Promise.all(promises).then(values => {
             console.log('Decks finished loading flashcards.');
@@ -42,4 +44,4 @@ class Decks {
   }
 }
 
-if (typeof module !== 'undefined') module.exports = Flashcard;
+module.exports = Decks;

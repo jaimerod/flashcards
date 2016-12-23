@@ -51,4 +51,4 @@ class Notifier {
 }
 
 
-if (typeof module !== 'undefined') module.exports = Notifier;
+module.exports = Notifier;

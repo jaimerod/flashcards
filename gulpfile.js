@@ -1,5 +1,4 @@
 // Gulp plugins
-const babel       = require('gulp-babel');
 const browserSync = require('browser-sync').create();
 const gulp        = require('gulp');
 const imagemin    = require('gulp-imagemin');
@@ -8,7 +7,7 @@ const sass        = require('gulp-sass');
 const sourcemaps  = require('gulp-sourcemaps');
 const eslint      = require('gulp-eslint');
 const plumber     = require('gulp-plumber');
-const uglify      = require('gulp-uglify');
+const webpack     = require('gulp-webpack');
 
 // Source Folders
 const baseDir    = 'src';
@@ -79,21 +78,11 @@ gulp.task('images', () => {
 gulp.task('scripts', ['eslint'], () => {
   if (!flags.shouldMinify) return gulp;
 
-  return gulp.src(jsFiles)
+  return gulp.src(baseDir + '/js/app.js')
     .pipe(plumber({errorHandler: handleErrors}))
-    .pipe(sourcemaps.init())
-    .pipe(babel({
-      compact: true,
-      presets: ['es2015']
-    }))
-    .pipe(uglify())
-    .pipe(sourcemaps.write('./', {
-      includeContent: true,
-      sourceRoot: './'
-    }))
+    .pipe(webpack(require('./webpack.config.js')))
     .pipe(gulp.dest(buildJsFolder))
-    .pipe(browserSync.stream());;
-
+    .pipe(browserSync.stream());
 });
 
 /**
@@ -125,7 +114,7 @@ gulp.task('serve', () => {
 /**
  * Copy the html files to the build directory
  */
-gulp.task('copy', ['vendor'], function () {
+gulp.task('copy', function () {
   return gulp.src([
     baseDir + '/**',
     '!' + sassFiles,
@@ -137,15 +126,6 @@ gulp.task('copy', ['vendor'], function () {
   .pipe(gulp.dest('build'))
   .pipe(browserSync.stream());
 });
-
-gulp.task('vendor', function () {
-  return gulp.src([
-    'node_modules/whatwg-fetch/',
-    'node_modules/whatwg-fetch/**',
-  ], {dot: true})
-  .pipe(plumber({errorHandler: handleErrors}))
-  .pipe(gulp.dest('build/js/vendor'));
-})
 
 /**
  * Watches for changes in files and does stuff
