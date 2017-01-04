@@ -1,17 +1,17 @@
 const webpack = require('webpack');
 
 module.exports = {
-  entry: __dirname + '/src/js/app.js',
+  entry: __dirname + '/src/js/app.jsx',
   output: {
     filename: 'app.bundle.js'
   },
   module: {
     loaders: [{
-      test: /\.js$/,
+      test: /\.jsx?$/,
       exclude: /(node_modules|bower_components)/,
       loader: 'babel-loader',
       query: {
-        presets: ['es2015']
+        presets: ['react', 'es2015']
       }
     }]
   },
@@ -22,10 +22,12 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
+    /*
     new webpack.optimize.UglifyJsPlugin({
       compress: {
 
       }
     })
+    */
   ]
 };

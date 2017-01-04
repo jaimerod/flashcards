@@ -1,10 +1,10 @@
 var assert = require('chai').assert;
 var Card = require('../src/js/card.js');
-var Flashcard = require('../src/js/flashcard.js');
+var Deck = require('../src/js/deck.js');
 
-describe('Flashcards', function () {
+describe('Deck', function () {
 	var initialNumberOfCards = 100;
-	var f = new Flashcard('test');
+	var f = new Deck('test');
 
 	for(i = 0; i < initialNumberOfCards; i++) {
 		f.addCard(new Card({

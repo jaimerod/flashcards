@@ -12,7 +12,7 @@ const webpack     = require('gulp-webpack');
 // Source Folders
 const baseDir    = 'src';
 const imageFiles = baseDir + '/images/**/*.{png,gif,jpg}';
-const jsFiles    = baseDir + '/js/**/*.js';
+const jsFiles    = baseDir + '/js/**/*.{js,jsx}';
 const sassFiles  = baseDir + '/scss/**/*.scss';
 
 // Build Folders
@@ -78,7 +78,7 @@ gulp.task('images', () => {
 gulp.task('scripts', ['eslint'], () => {
   if (!flags.shouldMinify) return gulp;
 
-  return gulp.src(baseDir + '/js/app.js')
+  return gulp.src(baseDir + '/js/app.jsx')
     .pipe(plumber({errorHandler: handleErrors}))
     .pipe(webpack(require('./webpack.config.js')))
     .pipe(gulp.dest(buildJsFolder))

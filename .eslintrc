@@ -16,7 +16,8 @@
     "regexYFlag": false,                        // enable the regular expression y flag
     "templateStrings": false,                   // enable template strings
     "unicodeCodePointEscapes": false,           // enable code point escapes
-    "jsx": false                                // enable JSX
+    "jsx": true,
+    "modules": true
   },
 
   "env": {
@@ -37,7 +38,7 @@
   },
 
   "plugins": [
-    // e.g. "react" (must run `npm install eslint-plugin-react` first)
+    "react"
   ],
 
   "rules": {
@@ -164,7 +165,7 @@
     "eol-last": 1,                  // enforce newline at the end of file, with no multiple empty lines
     "func-names": 0,                // require function expressions to have a name (off by default)
     "func-style": 0,                // enforces use of function declarations or expressions (off by default)
-    "key-spacing": 1,               // enforces spacing between keys and values in object literal properties
+    "key-spacing": 0,               // enforces spacing between keys and values in object literal properties
     "max-nested-callbacks": 0,      // specify the maximum depth callbacks can be nested (off by default)
     "new-cap": 1,                   // require a capital letter for constructors
     "new-parens": 0,                // disallow the omission of parentheses when invoking a constructor with no arguments
@@ -216,6 +217,10 @@
     "no-plusplus": 0      // disallow use of unary operators, ++ and -- (off by default)
   },
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaFeatures": {
+        "jsx": true,
+        "modules": true
+    }
   }
 }

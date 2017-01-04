@@ -11,7 +11,7 @@ var sw = (function () {
           // Send a toast message to the user, there is an update
           function toastUpdate (worker) {
             var event = new CustomEvent('toast', { detail: {
-              message: 'New update available',
+              message: 'New update available. Click to reload page.',
               actionName: 'Update Now',
               action: function () {
                 worker.postMessage({
@@ -58,4 +58,4 @@ var sw = (function () {
   }
 }());
 
-sw.register();
+module.exports = sw;

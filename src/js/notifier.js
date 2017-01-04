@@ -3,6 +3,13 @@
 class Notifier {
   constructor () {
     this.getPermission();
+
+    window.addEventListener('toast', (e) => {
+      this.sendMessage(e.detail.message, (e2) => {
+        e.detail.action();
+        window.location.reload(true);
+      });
+    })
   }
 
   hasPermission() {
@@ -41,9 +48,15 @@ class Notifier {
     });
   }
 
-  sendMessage(message) {
+  sendMessage(message, cb) {
     this.hasPermission().then(() => {
       this.lastNotification = new Notification(message);
+
+      this.lastNotification.addEventListener('click', function (e) {
+        if (typeof cb === "function") {
+          cb();
+        }
+      });
     }).catch((err) => {
       console.log('Error: ' + err);
     });

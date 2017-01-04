@@ -6,7 +6,90 @@
 .wrapper {
   margin: 0 auto;
   max-width: 960px;
-  min-width: 320px;
-  padding: 12px;
+  min-width: 370px;
+  padding: 16px;
   position: relative;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url(../fonts/Open_Sans/OpenSans-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Scope One';
+  src: url(../fonts/Scope_One/ScopeOne-Regular.ttf);
+}
+
+body {
+  background-color: $blue;
+}
+
+ul {
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  color: $white;
+  font-family: 'Scope One', serif;
+}
+
+p, li {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+}
+
+.controls {
+  text-align: center;
+
+  li {
+    display: inline-block;
+    margin-right: 16px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  button {
+    background-color: $white;
+    border: 0;
+    font-weight: bold;
+    padding: 12px 24px;
+  }
+}
+
+.card {
+  background-color: $white;
+  border: 1px solid $light-blue;
+  padding: 0;
+
+  h1 {
+    color: $black;
+    background-color: $light-blue;
+    padding: 24px;
+  }
+
+  > h1:first-child {
+    margin: 0;
+  }
+
+  h2 {
+    color: $blue;
+    margin-bottom: -16px;
+  }
+
+  ul {
+    margin: 0;
+
+    li {
+      padding: 24px;
+    }
+  }
+
+  code {
+    font-family: monospace;
+    white-space: pre;
+    font-size: 16px;
+  }
 }

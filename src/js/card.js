@@ -1,14 +1,26 @@
 'use strict';
 
 class Card {
-  constructor (obj) {
-    this.view = "front";
-
-    if (typeof obj !== 'undefined') {
-      this.back = obj.back;
-      this.front = obj.front;
-      this.title = obj.title;
+  constructor(obj) {
+    let defaults = {
+      id:     Date.now().toString() + Math.random() * (100000 - 1) + 1,
+      synced: 0,
+      view:   'front',
+      back:   'The back of the flashcard',
+      deckId: 0,
+      front:  'The front of the flashcard',
+      title:  'The Default Title'
     }
+
+    Object.assign(defaults, obj);
+
+    this.id     = defaults.id;
+    this.synced = defaults.synced;
+    this.view   = defaults.view;
+    this.back   = defaults.back;
+    this.deckId = defaults.deckId;
+    this.front  = defaults.front;
+    this.title  = defaults.title;
   }
 
   flip() {
@@ -23,36 +35,28 @@ class Card {
     return this[this.view];
   }
 
-  save(parent) {
-    const database = firebase.database();
-    const cardPath = parent + '/cards';
-    const payload = {
-      title: this.title,
-      front: this.front,
-      back: this.back
-    }
-
-    if (typeof this.id === 'undefined') {
-      const cardRef = database.ref(cardPath);
-      const newCard = cardRef.push();
-      newCard.set(payload);
-      this.id = newCard.key;
-    } else {
-      // update flashcards
-      database.ref(cardPath + "/" + this.id).set(payload);
-    }
+  load(db, id) {
+    return new Promise((resolve) => {
+      db.getCard(id).then(card => {
+        this.back   = card.back;
+        this.deckId = card.deckId;
+        this.front  = card.front;
+        this.id     = card.id;
+        this.synced = card.synced;
+        this.title  = card.id;
+        resolve(this);
+      });
+    });
   }
 
-  load(id) {
-    return new Promise((resolve) => {
-      firebase.database().ref(id).once('value').then((snapshot) => {
-        const data = snapshot.val();
-        this.title = data.title;
-        this.front = data.front;
-        this.back  = data.back;
-        console.log('Finished loading card.');
-        resolve();
-      });
+  save(db) {
+    db.setCard({
+      back:   this.back,
+      deckId: this.deckId,
+      front:  this.front,
+      id:     this.id,
+      synced: 0,
+      title:  this.title
     });
   }
 }

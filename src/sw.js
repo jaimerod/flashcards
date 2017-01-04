@@ -1,5 +1,5 @@
 var staticCacheNames = [
-  'flashcards_v02'
+  'flashcards_v11'
 ];
 
 self.addEventListener('activate', function (event) {
@@ -27,8 +27,20 @@ self.addEventListener('fetch', function (event) {
 self.addEventListener('install', function (event) {
   var UrlsToCache = {
     'flashcards': [
-      '/js/app.js',
-      '/css/main.css'
+      '/',
+      'manifest.json',
+      'index.html',
+      '/js/app.bundle.js',
+      '/css/main.css',
+      '/fonts/FontAwesome.otf',
+      '/fonts/fontawesome-webfont.eot',
+      '/fonts/fontawesome-webfont.svg',
+      '/fonts/fontawesome-webfont.ttf',
+      '/fonts/fontawesome-webfont.woff',
+      '/fonts/fontawesome-webfont.woff2',
+      '/fonts/Scope_One/ScopeOne-Regular.ttf',
+      '/fonts/Open_Sans/OpenSans-Regular.ttf'
+      //'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
     ]
   };
 
