@@ -5,16 +5,16 @@ class Notifier {
     this.getPermission();
 
     window.addEventListener('toast', (e) => {
-      this.sendMessage(e.detail.message, (e2) => {
+      this.sendMessage(e.detail.message, () => {
         e.detail.action();
         window.location.reload(true);
       });
-    })
+    });
   }
 
   hasPermission() {
     return new Promise((resolve, reject) => {
-      if (Notification.permission === "granted") {
+      if (Notification.permission === 'granted') {
         resolve();
       } else {
         this.getPermission().then(() => {
@@ -32,13 +32,13 @@ class Notifier {
         reject('could not get permission.');
       } else if (Notification.permission === 'denied') {
         reject('Permission was previously denied.');
-      } else if (Notification.permission !== "granted") {
+      } else if (Notification.permission !== 'granted') {
         Notification.requestPermission().then(function (status) {
           if (Notification.permission !== status) {
             Notification.permission = status;
           }
 
-          if (status === "granted") {
+          if (status === 'granted') {
             resolve();
           } else {
             reject('Permission was denied.');
@@ -52,8 +52,8 @@ class Notifier {
     this.hasPermission().then(() => {
       this.lastNotification = new Notification(message);
 
-      this.lastNotification.addEventListener('click', function (e) {
-        if (typeof cb === "function") {
+      this.lastNotification.addEventListener('click', function () {
+        if (typeof cb === 'function') {
           cb();
         }
       });

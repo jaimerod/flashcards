@@ -4,7 +4,7 @@ var sw = (function () {
       if (navigator.serviceWorker) {
         navigator.serviceWorker.register('/sw.js').then(function (reg) {
           // If we update the service worker reload the page
-          navigator.serviceWorker.addEventListener('controllerchange', function (event) {
+          navigator.serviceWorker.addEventListener('controllerchange', function () {
             location.reload();
           });
 
@@ -55,7 +55,7 @@ var sw = (function () {
         console.log('Cannot register ServiceWorker.');
       }
     }
-  }
+  };
 }());
 
 module.exports = sw;

@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 const DeckView    = require('./views/deck.view.jsx');
 
 const DataManager = require('./db.js');
-const Card        = require('./card.js');
+// const Card        = require('./card.js');
 const Deck        = require('./deck.js');
 const sw          = require('./sw.js');
 const db          = new DataManager();
@@ -22,7 +22,7 @@ class App extends React.Component {
     db.init().then(() => {
       const d1 = new Deck();
 
-      d1.load(db, "-K_SddtcEo_ny01fhehT").then(function (deck) {
+      d1.load(db, '-K_SddtcEo_ny01fhehT').then(function (deck) {
         console.dir(deck);
         that.setState({
           deck: deck
@@ -34,16 +34,15 @@ class App extends React.Component {
 
     this.state = {
       deck: {cards:[]}
-    }
+    };
 
     this.nextCard = this.nextCard.bind(this);
     this.prevCard = this.prevCard.bind(this);
     this.flipCard = this.flipCard.bind(this);
   }
 
-  componentWillUpdate(nextProps) {}
-
-  componentWillUnmount() {}
+  // componentWillUpdate(nextProps) {}
+  // componentWillUnmount() {}
 
   nextCard() {
     this.setState(prevState => {
@@ -55,7 +54,7 @@ class App extends React.Component {
   }
 
   prevCard() {
-     this.setState(prevState => {
+    this.setState(prevState => {
       prevState.deck.getPrevCard();
       return {
         deck: prevState.deck

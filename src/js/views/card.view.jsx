@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 class CardView extends React.Component {
   constructor(props) {
@@ -7,9 +6,9 @@ class CardView extends React.Component {
 
     this.state = {
       currentSide: 'front'
-    }
+    };
 
-    if (props.visible === "true") {
+    if (props.visible === 'true') {
       this.state.visibility = {display: 'block'};
     } else {
       this.state.visibility = {display: 'none'};
@@ -17,31 +16,30 @@ class CardView extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.visible === "true") {
+    if (nextProps.visible === 'true') {
       this.setState({visibility: {display: 'block'}});
     } else {
       this.setState({visibility: {display: 'none'}});
     }
   }
 
-  componentWillUpdate(nextProps) {  }
-
-  componentWillUnmount() {}
+  // componentWillUpdate(nextProps) {  }
+  // componentWillUnmount() {}
 
   frontVisible() {
     if (this.props.card.view === 'front') {
       return {display: 'block'};
-    } else {
-      return {display: 'none'};
     }
+
+    return {display: 'none'};
   }
 
   backVisible() {
     if (this.props.card.view === 'back') {
       return {display: 'block'};
-    } else {
-      return {display: 'none'};
     }
+
+    return {display: 'none'};
   }
 
   createMarkup(str) {

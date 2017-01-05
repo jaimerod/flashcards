@@ -5,20 +5,20 @@ const firebase = require('firebase');
 const Notifier = require('./notifier.js');
 
 class DataManager {
-  constructor() {
+  constructor () {
     // Setup firebase
     firebase.initializeApp({
-      apiKey: "AIzaSyBcxHXTQWPAVYS-2viARpVNOSXFlvOvNgk",
-      authDomain: "flashcards-cb587.firebaseapp.com",
-      databaseURL: "https://flashcards-cb587.firebaseio.com",
-      storageBucket: "flashcards-cb587.appspot.com",
-      messagingSenderId: "666358064594"
+      apiKey:            'AIzaSyBcxHXTQWPAVYS-2viARpVNOSXFlvOvNgk',
+      authDomain:        'flashcards-cb587.firebaseapp.com',
+      databaseURL:       'https://flashcards-cb587.firebaseio.com',
+      storageBucket:     'flashcards-cb587.appspot.com',
+      messagingSenderId: '666358064594'
     });
 
     this.toast    = new Notifier();
-    this.cardPath = "/cards";
-    this.deckPath = "/decks";
-    this.db       = new Dexie("flashcards");
+    this.cardPath = '/cards';
+    this.deckPath = '/decks';
+    this.db       = new Dexie('flashcards');
     this.fdb      = firebase.database();
 
     // manage online and offline
@@ -43,7 +43,7 @@ class DataManager {
     this.db.open().then(() => {
       this._sync();
     }).catch(err => {
-      console.log('DB Failed to open');
+      console.log(err + 'DB Failed to open');
     });
   }
 
@@ -82,23 +82,25 @@ class DataManager {
           const library = snapshot.val();
 
           for (const card in library) {
-            promises.push(new Promise((resolve, reject) => {
-              this.db.cards.put({
-                back:   library[card].back,
-                deckId: library[card].deckId,
-                front:  library[card].front,
-                id:     card,
-                synced: 1,
-                title:  library[card].title
-              }).then(() => {
-                resolve();
-              }).catch(err => {
-                reject(err);
-              });
-            }));
+            if (library.hasOwnProperty(card)) {
+              promises.push(new Promise((resolve, reject) => {
+                this.db.cards.put({
+                  back:   library[card].back,
+                  deckId: library[card].deckId,
+                  front:  library[card].front,
+                  id:     card,
+                  synced: 1,
+                  title:  library[card].title
+                }).then(() => {
+                  resolve();
+                }).catch(err => {
+                  reject(err);
+                });
+              }));
+            }
           }
 
-          Promise.all(promises).then(values => {
+          Promise.all(promises).then(() => {
             console.log('Finished loading cards.');
             resolve();
           }, reason => {
@@ -132,7 +134,7 @@ class DataManager {
             }));
           }
 
-          Promise.all(promises).then(values => {
+          Promise.all(promises).then(() => {
             console.log('Finished loading decks.');
             resolve();
           }, reason => {
@@ -156,16 +158,19 @@ class DataManager {
         };
 
         if (card.id.toString().startsWith('-')) {
-          this.fdb.ref(this.cardPath + "/" + this.id).set(payload);
+          this.fdb.ref(this.cardPath + '/' + this.id).set(payload);
         } else {
           const oldId = card.id;
           const cardRef = this.fdb.ref(this.cardPath);
           const newCard = cardRef.push();
+
           // Add card to firebase
           newCard.set(payload);
           payload.id = newCard.key;
+
           // Add card to indexedDB
           this.db.cards.add(payload);
+
           // Delete the old one
           toBeDeleted.push(oldId);
         }
@@ -196,7 +201,7 @@ class DataManager {
           newDeck.set(payload);
           payload.id = newDeck.key;
           // Add deck to indexedDB
-          this.db.decks.add(payload)
+          this.db.decks.add(payload);
           // Delete the old one
           toBeDeleted.push(oldId);
 
@@ -225,14 +230,14 @@ class DataManager {
 
           this.syncing = false;
           console.log('syncing done.');
-        });;
+        });
       });
     }
   }
 
   getCard(id) {
     return new Promise((resolve, reject) => {
-      this.db.cards.where("id").equals(id).first(card => {
+      this.db.cards.where('id').equals(id).first(card => {
         resolve(card);
       }).catch(err => {
         console.dir(err);
@@ -243,8 +248,8 @@ class DataManager {
 
   getDeck(id) {
     return new Promise((resolve, reject) => {
-      this.db.decks.where("id").equals(id).first(deck => {
-        if (typeof deck !== "undefined") {
+      this.db.decks.where('id').equals(id).first(deck => {
+        if (typeof deck !== 'undefined') {
           resolve(deck);
         } else {
           reject('Could not get the Deck ' + id + '.');
@@ -269,10 +274,13 @@ class DataManager {
     const cards = [];
 
     return new Promise((resolve, reject) => {
-      this.db.cards.where("deckId").equals(id).each(card => {
+      this.db.cards.where('deckId').equals(id).each(card => {
         cards.push(card);
       }).then(() => {
         resolve(cards);
+      }).catch(err => {
+        console.log(err);
+        reject();
       });
     });
   }
@@ -292,7 +300,7 @@ class DataManager {
 
       Promise.all(promises).then(values => {
         console.log('Finished loading data.');
-        resolve();
+        resolve(values);
       }, reason => {
         reject(reason);
       });

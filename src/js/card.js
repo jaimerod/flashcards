@@ -10,7 +10,7 @@ class Card {
       deckId: 0,
       front:  'The front of the flashcard',
       title:  'The Default Title'
-    }
+    };
 
     Object.assign(defaults, obj);
 
@@ -24,10 +24,10 @@ class Card {
   }
 
   flip() {
-    if (this.view === "front") {
-      this.view = "back";
+    if (this.view === 'front') {
+      this.view = 'back';
     } else {
-      this.view = "front";
+      this.view = 'front';
     }
   }
 

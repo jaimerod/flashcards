@@ -49,10 +49,10 @@ class Deck {
     let rand, temp, i;
 
     for (i = this.cards.length; i; i--) {
-        rand = Math.floor(Math.random() * i);
-        temp = this.cards[i - 1];
-        this.cards[i - 1] = this.cards[rand];
-        this.cards[rand] = temp;
+      rand = Math.floor(Math.random() * i);
+      temp = this.cards[i - 1];
+      this.cards[i - 1] = this.cards[rand];
+      this.cards[rand] = temp;
     }
 
     this.position = -1;
@@ -76,7 +76,7 @@ class Deck {
           resolve(this);
         });
       }).catch(err => {
-        reject('Failed to load Deck ' + id + '.');
+        reject(err + 'Failed to load Deck ' + id + '.');
       });
     });
   }
